@@ -15,7 +15,21 @@ const addTodos = (title) => {
                   return resolve(result);
               })
           })
-      }
+    }
 
-module.exports = addTodos
-// exports.addTodos = addTodos;
+const setTodoLists = () => {
+        return new Promise((resolve, reject) => {
+            pool.query(
+            'SELECT * FROM todo_data',
+            (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(result);
+            })
+        })
+    }
+
+
+exports.addTodos = addTodos;
+exports.setTodoLists = setTodoLists;
