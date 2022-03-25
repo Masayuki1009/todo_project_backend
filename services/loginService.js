@@ -1,53 +1,32 @@
-const initPool = require('../db/connection');
 const jwtConstants = require('../config/jwt-constants')
 const bcryptjs = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const pool = initPool();
+const userRepository = require('../repositories/user-repository')
 
 const signup = async (email, password) => {
-    console.log("signup")
-    const hashedPassword = await bcryptjs.hash(password, await bcryptjs.genSalt());
-    return new Promise((resolve, reject) => {
-        pool.query(`INSERT INTO login_data (email, password) VALUES (?, ?)`,
-        [
-            email,
-            hashedPassword
-        ],
-        (err, result) => {
-            if(err) {
-                return reject(err);
-            }
-            return resolve(result);
-        })
-    })
-    .then( () => {
-        return addAccessToken(email)
-        })
+
+    //alert if the email is already registered
+    const user = await userRepository.findByEmail(email);
+
+    const hashedPassword = await bcryptjs.hash(password, await bcryptjs.genSalt())
+    console.log(hashedPassword);
+    
+    const result = await userRepository.saveOne(email, hashedPassword)
+    return addAccessToken(result.email)
 }
 
 const signin =  async (email, plainPassword) => {
-    //メアドの確認
     console.log("success")
-    return new Promise((resolve, reject) => {
-        pool.query(`SELECT email, password FROM login_data where email = ?`,
-        [
-            email
-        ],(err, result) => {
-            if(!email) {
-                return reject(err);
-            }
-            return resolve(result);
-        })
-    //パスワードの確認
-    })
-    .then( async (result) => {
+    
+    //alert if the user(the email) is not registered
+    const user = await userRepository.findByEmail(email);
+    if(!user) {
+        throw new Error('not registered')
+    }
 
-    console.log("success")
-    const isPasswordValid = await bcryptjs.compare(plainPassword, result[0].password);//await? user?
-    console.log(isPasswordValid)
-    if (!isPasswordValid) throw new Error(`email or password is invalid`);
+    const isPasswordValid = await bcryptjs.compare(plainPassword, user.password);
+    if(!isPasswordValid) throw new Error('email or password is invalid')
     return addAccessToken(email)
-    })
 }
 
 //
@@ -59,8 +38,6 @@ const addAccessToken = (email) => {
     }
 }
 
-//
-// module.exports = signup, signin;
 exports.signup = signup;
 exports.signin = signin;
 

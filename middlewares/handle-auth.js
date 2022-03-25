@@ -4,17 +4,17 @@ const jwtConstants = require('../config/jwt-constants')
 
 const handleAuth = () => async (req, res, next) => {
   try {
-    console.log("hello")
+    console.log("hello auth")
 
     const token = req.get('authorization')?.slice(7);
     console.log(token)
     if (!token) return res.status(401).send('unauthorized');
-//     console.log("hello")
+    // unauthorizedされてる！！！/
 
     const decoded = jwt.verify(token, jwtConstants.JWT_SECRET);
 
+    console.log("ok!")
     if (!decoded) return res.status(401).send('unauthorized');
-//     console.log("hello")
     req.email = decoded;
 
     next();

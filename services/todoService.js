@@ -1,35 +1,27 @@
-const initPool = require('../db/connection');
-const pool = initPool();
+// const pool = require('../db/connection');
+// const pool = initPool();
+const userRepository = require("../repositories/user-repository");
 
+const addTodo = async (title) => {
+  const added = await userRepository.addTodo(title);
+  return added;
+};
 
-const addTodos = (title) => {
-          return new Promise((resolve, reject) => {
-              pool.query(`INSERT INTO todo_data (title) VALUES (?)`,
-              [
-                  title
-              ],
-              (err, result) => {
-                  if(err) {
-                      return reject(err);
-                  }
-                  return resolve(result);
-              })
-          })
-    }
+const setTodoLists = async () => {
+  return await userRepository.setTodoLists();
+};
 
-const setTodoLists = () => {
-        return new Promise((resolve, reject) => {
-            pool.query(
-            'SELECT * FROM todo_data',
-            (err, result) => {
-                if (err) {
-                    return reject(err);
-                }
-                return resolve(result);
-            })
-        })
-    }
+const deleteTodo = async (id) => {
+  await userRepository.deleteTodo(id);
+};
 
+const updateTodo = async (title, id) => {
+  await userRepository.updateTodo(title, id);
+};
 
-exports.addTodos = addTodos;
-exports.setTodoLists = setTodoLists;
+module.exports = {
+  addTodo,
+  setTodoLists,
+  deleteTodo,
+  updateTodo,
+};
