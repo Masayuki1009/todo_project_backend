@@ -2,11 +2,11 @@
 // do only access DB by query
 const queryMySQL = require("../db/connection");
 
-const saveOne = async (email, hashedPassword) => {
+const saveOne = async (user) => {
   console.log("signup");
   const res = await queryMySQL(
     `INSERT INTO login_data (email, password) VALUES (?, ?)`,
-    [email, hashedPassword]
+    [user.email, user.password]
   );
   return res;
 };

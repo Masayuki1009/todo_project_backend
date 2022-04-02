@@ -7,8 +7,8 @@ const router = express.Router();
 router.post('/signup', async (req, res)  => {
     try {
         const { email, password } = req.body;
-        const result = await signup(email, password);
-        // console.log(result)
+        console.log("body", req.body)
+        const result = await signup({ email, password });
         return res.status(200).json(result);
     } catch (error) {
         console.log(error)
@@ -20,6 +20,7 @@ router.post('/signup', async (req, res)  => {
 router.post('/signin' ,async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log("body", req.body)
         const result = await signin({ email, password });//変えた
         return res.status(200).json(result);
     } catch (error) {

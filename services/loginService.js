@@ -3,35 +3,42 @@ const bcryptjs = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const userRepository = require('../repositories/user-repository')
 
-const signup = async (email, password) => {
+const signup = async (dto) => {
+    const hashedPassword = await bcryptjs.hash(dto.password, await bcryptjs.genSalt())
 
     //alert if the email is already registered
-    const user = await userRepository.findByEmail(email);
+    // const user = await userRepository.findByEmail(email);
+    const user = {
+        email: dto.email,
+        password: hashedPassword,
+    };
+    console.log("signupのuserです", user)
 
-    const hashedPassword = await bcryptjs.hash(password, await bcryptjs.genSalt())
-    console.log(hashedPassword);
-    
-    const result = await userRepository.saveOne(email, hashedPassword)
-    return addAccessToken(result.email)
+    const result = await userRepository.saveOne(user)
+    return generateAccessToken(result.insertId.toString())
 }
 
 const signin =  async (email, plainPassword) => {
-    console.log("success")
-    
+    console.log("サインイン、できてます")
+    console.log("emailはこれだよ", email)
+
     //alert if the user(the email) is not registered
     const user = await userRepository.findByEmail(email);
     if(!user) {
         throw new Error('not registered')
     }
+    console.log("userのパスワード", user)
 
     const isPasswordValid = await bcryptjs.compare(plainPassword, user.password);
     if(!isPasswordValid) throw new Error('email or password is invalid')
-    return addAccessToken(email)
+    console.log("id", user.id)
+    return generateAccessToken(user.id)
 }
 
 //
-const addAccessToken = (email) => {
-    const accessToken = jwt.sign({ id: email }, jwtConstants.JWT_SECRET, { expiresIn: jwtConstants.JWT_EXPIRE_IN });
+const generateAccessToken = (id) => {
+    console.log("idだよ", id)
+    const accessToken = jwt.sign({ id }, jwtConstants.JWT_SECRET, { expiresIn: jwtConstants.JWT_EXPIRE_IN });
     return {
         accessToken,
         expiresIn: jwtConstants.JWT_EXPIRE_IN,
@@ -62,5 +69,5 @@ exports.signin = signin;
     //     })
     //     const isPasswordValid = bcryptjs.compare(plainPassword, hashedPassword);//await? user?
     //     if (!isPasswordValid) throw new Error(`email or password is invalid`);
-    //     addAccessToken(email)
-    //     console.log(addAccessToken(email))
+    //     generateAccessToken(email)
+    //     console.log(generateAccessToken(email))
