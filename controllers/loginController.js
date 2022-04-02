@@ -20,7 +20,6 @@ router.post('/signup', async (req, res)  => {
 router.post('/signin' ,async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log("body", req.body)
         const result = await signin({ email, password });//変えた
         return res.status(200).json(result);
     } catch (error) {

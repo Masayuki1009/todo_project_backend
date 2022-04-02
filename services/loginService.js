@@ -18,21 +18,22 @@ const signup = async (dto) => {
     return generateAccessToken(result.insertId.toString())
 }
 
-const signin =  async (email, plainPassword) => {
-    console.log("サインイン、できてます")
-    console.log("emailはこれだよ", email)
+const signin =  async (dto) => {
+    const signinDTO = {
+        email: dto.email,
+        password: dto.password,
+    }
 
     //alert if the user(the email) is not registered
-    const user = await userRepository.findByEmail(email);
+    const user = await userRepository.findByEmail(signinDTO.email);
     if(!user) {
         throw new Error('not registered')
     }
-    console.log("userのパスワード", user)
 
-    const isPasswordValid = await bcryptjs.compare(plainPassword, user.password);
+    const isPasswordValid = await bcryptjs.compare(dto.password, user[0].password);
     if(!isPasswordValid) throw new Error('email or password is invalid')
-    console.log("id", user.id)
-    return generateAccessToken(user.id)
+    
+    return generateAccessToken(user[0].id)
 }
 
 //
@@ -47,27 +48,3 @@ const generateAccessToken = (id) => {
 
 exports.signup = signup;
 exports.signin = signin;
-
-   //以下旧チャレンジ
-    
-    //query前にここでcontrollerで入力された元のパスワードをhash後のパスワードに変換し、その上で下のpassword部分のvaruableをhash後のパスワードにする
-    // const hashedPassword = await bcryptjs.hash(plainPassword, await bcryptjs.genSalt());
-
-    //この時点でdatabaseに保存されているhash値とは異なるhashが生成されているから、成り立たない？
-    // return new Promise((resolve, reject) => {
-    //     pool.query(`SELECT email, password FROM login_data`,
-    //     [
-    //         email,
-    //         hashedPassword
-    //     ],
-    //     (err, result) => {
-    //         if(err) {
-
-    //             return reject(err);
-    //         }
-    //         return resolve(result);
-    //     })
-    //     const isPasswordValid = bcryptjs.compare(plainPassword, hashedPassword);//await? user?
-    //     if (!isPasswordValid) throw new Error(`email or password is invalid`);
-    //     generateAccessToken(email)
-    //     console.log(generateAccessToken(email))
