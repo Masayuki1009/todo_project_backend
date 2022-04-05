@@ -7,8 +7,8 @@ const addTodo = async (dto) => {
   return added;
 };
 
-const setTodoLists = async () => {
-  return await userRepository.setTodoLists();
+const setTodoLists = async (dto) => {
+  return await userRepository.setTodoLists(dto.userId);
 };
 
 const deleteTodo = async (id) => {

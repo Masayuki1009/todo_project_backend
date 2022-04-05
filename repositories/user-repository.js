@@ -29,8 +29,10 @@ const addTodo = async (dto) => {
 }
 
 // need userid to recognise user
-const setTodoLists = async () => {
-  const res = await queryMySQL('SELECT * FROM todo_data');
+const setTodoLists = async (userId) => {
+  const res = await queryMySQL('SELECT * FROM todo_data WHERE user_id = ?',
+  [userId]
+  );
   // console.log("settodolists", res)
   return res;
 }

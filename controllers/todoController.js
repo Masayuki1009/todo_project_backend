@@ -13,11 +13,9 @@ router.post('/add', handleAuth(), async (req, res) => {
           }
       })
 
-router.get('/get', async (req, res) => {
+router.get('/get', handleAuth(), async (req, res) => {
     try {
-        const result = await todoService.setTodoLists()
-        // const a = result.map((data) => (data))
-        console.log("todoController", result)
+        const result = await todoService.setTodoLists({ userId: req.user.id })
         return res.status(200).json(result)
     }catch (error) {
         console.log(error)

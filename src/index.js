@@ -28,6 +28,5 @@ app.use('/login', loginControllerRouter);
 app.use('/todo', todoControllerRouter);
 
 app.get('/accounts/check-auth', handleAuth(), async (req, res) => {
-  console.log("auth checked!")
   res.status(200).send('check auth');
 });
