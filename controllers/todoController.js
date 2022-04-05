@@ -33,12 +33,11 @@ router.delete('/delete/:id', handleAuth(), async (req, res) => {
     }
 })
 
-router.put('/update/:id', async (req, res) => {
+router.put('/update/:id', handleAuth(), async (req, res) => {
     try {
         const { title } = req.body;
-        const id = req.params.id
-
-        await todoService.updateTodo(title, id)
+        const todoId = req.params.id
+        await todoService.updateTodo({ title, todoId, userId: req.user.id})
 
         res.status(200).send();
     } catch (error) {

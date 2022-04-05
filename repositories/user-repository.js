@@ -45,11 +45,12 @@ const deleteTodo = async (dto) => {
   return res
 }
 
-const updateTodo = async (title, id) => {
+const updateTodo = async (dto) => {
   const res = await queryMySQL(
-    `UPDATE todo_data SET title=? WHERE id=?`,
-    [title, id]
+    `UPDATE todo_data SET title=? WHERE id=? AND user_id=?`,
+    [dto.title , dto.todoId, dto.userId]
   )
+  console.log(res)
   console.log(res)
   return res
 }

@@ -15,8 +15,8 @@ const deleteTodo = async (dto) => {
   await userRepository.deleteTodo({ todoId: dto.todoId, userId: dto.userId });
 };
 
-const updateTodo = async (title, id) => {
-  await userRepository.updateTodo(title, id);
+const updateTodo = async (dto) => {
+  await userRepository.updateTodo({ title: dto.title, todoId: dto.todoId, userId: dto.userId });
 };
 
 module.exports = {
