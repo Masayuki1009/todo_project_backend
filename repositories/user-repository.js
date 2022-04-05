@@ -19,13 +19,13 @@ const findByEmail = async (email) => {
   return res;
 };
 
-const addTodo = async (title) => {
+const addTodo = async (dto) => {
   const res = await queryMySQL(
-    `INSERT INTO todo_data (title) VALUES (?)`,
-    [title]
+    `INSERT INTO todo_data (user_id, title) VALUES (?, ?)`,
+    [dto.userId, dto.title]
   );
-  console.log("repository", {id: res.insertId, title});
-  return {id: res.insertId, title};
+  console.log("repository", {id: res.insertId, title: dto.title});
+  return {id: res.insertId, title: dto.title};
 }
 
 // need userid to recognise user

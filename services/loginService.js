@@ -36,9 +36,8 @@ const signin =  async (dto) => {
     return generateAccessToken(user[0].id)
 }
 
-//
+
 const generateAccessToken = (id) => {
-    console.log("idだよ", id)
     const accessToken = jwt.sign({ id }, jwtConstants.JWT_SECRET, { expiresIn: jwtConstants.JWT_EXPIRE_IN });
     return {
         accessToken,

@@ -2,8 +2,8 @@
 // const pool = initPool();
 const userRepository = require("../repositories/user-repository");
 
-const addTodo = async (title) => {
-  const added = await userRepository.addTodo(title);
+const addTodo = async (dto) => {
+  const added = await userRepository.addTodo({title: dto.title, userId: dto.userId});
   return added;
 };
 
