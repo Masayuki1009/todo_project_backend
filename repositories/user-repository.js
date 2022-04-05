@@ -37,10 +37,10 @@ const setTodoLists = async (userId) => {
   return res;
 }
 
-const deleteTodo = async (id) => {
+const deleteTodo = async (dto) => {
   const res = await queryMySQL(
-    `DELETE FROM todo_data WHERE id= ?`,
-    [id]
+    `DELETE FROM todo_data WHERE id= ? AND user_id= ?`,
+    [dto.todoId, dto.userId]
   );
   return res
 }

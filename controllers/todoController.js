@@ -23,10 +23,10 @@ router.get('/get', handleAuth(), async (req, res) => {
     }
 })
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', handleAuth(), async (req, res) => {
     try {
-        const id = req.params.id
-        const result = await todoService.deleteTodo(id)
+        const todoId = req.params.id
+        const result = await todoService.deleteTodo({ todoId, userId: req.user.id })
         return res.status(200).json(result);
     } catch (error) {
         return res.status(500).send('failed to insert')

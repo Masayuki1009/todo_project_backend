@@ -11,8 +11,8 @@ const setTodoLists = async (dto) => {
   return await userRepository.setTodoLists(dto.userId);
 };
 
-const deleteTodo = async (id) => {
-  await userRepository.deleteTodo(id);
+const deleteTodo = async (dto) => {
+  await userRepository.deleteTodo({ todoId: dto.todoId, userId: dto.userId });
 };
 
 const updateTodo = async (title, id) => {
