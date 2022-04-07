@@ -1,6 +1,6 @@
 //import
 const express = require("express");
-const bcryptjs = require("bcryptjs");
+// const bcryptjs = require("bcryptjs");
 const cors = require("cors")
 const handleAuth = require('../middlewares/handle-auth')
 
@@ -10,7 +10,7 @@ const todoControllerRouter = require('../controllers/todoController');
 
 //server config
 const HOST = "localhost"
-const PORT = "4000";
+const PORT = process.env.PORT || "4000";
 
 //initialize express app
 const app = express();
