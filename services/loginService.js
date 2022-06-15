@@ -15,6 +15,7 @@ const signup = async (dto) => {
     console.log("signupのuserです", user)
 
     const result = await userRepository.saveOne(user)
+    console.log("insertIdだよ！", result.insertId.toString())
     return generateAccessToken(result.insertId.toString())
 }
 
