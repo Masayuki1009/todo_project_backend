@@ -20,12 +20,17 @@ const findByEmail = async (email) => {
 };
 
 const addTodo = async (dto) => {
+  console.log("addtodo desu", dto.title.title)
   const res = await queryMySQL(
-    `INSERT INTO todo_data (user_id, title) VALUES (?, ?)`,
-    [dto.userId, dto.title]
+    `INSERT INTO todo_data (user_id, title, createdAt) VALUES (?, ?, ?)`,
+    [dto.userId, dto.title, dto.createdAt]
+    // `INSERT INTO todo_data (user_id, title) VALUES (?, ?)`,
+    // [dto.userId, dto.title]
   );
-  console.log("repository", {id: res.insertId, title: dto.title});
-  return {id: res.insertId, title: dto.title};
+  // console.log("repository", {id: res.insertId, title: dto.title});
+  // return {id: res.insertId, title: dto.title};
+  console.log("repository", {id: res.insertId, title: dto.title, createdAt: dto.createdAt});
+  return {id: res.insertId, title: dto.title, createdAt: dto.createdAt};
 }
 
 // need userid to recognise user
@@ -33,7 +38,7 @@ const setTodoLists = async (userId) => {
   const res = await queryMySQL('SELECT * FROM todo_data WHERE user_id = ?',
   [userId]
   );
-  // console.log("settodolists", res)
+  // console.log("settodolists", res[0].createdAt.toLocaleString())
   return res;
 }
 
