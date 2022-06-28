@@ -6,10 +6,6 @@ const router = express.Router();
 router.post("/add", handleAuth(), async (req, res) => {
   try {
     const { title, createdAt } = req.body;
-
-    //   return
-    //   const result = await todoService.addTodo({title, userId: req.user.id, createdAt})
-    //   const { title } = req.body;
     const result = await todoService.addTodo({
       title,
       createdAt,
@@ -25,7 +21,6 @@ router.post("/add", handleAuth(), async (req, res) => {
 router.get("/get", handleAuth(), async (req, res) => {
   try {
     const result = await todoService.setTodoLists({ userId: req.user.id });
-    // console.log("result getTodos", result[0].createdAt);
     return res.status(200).json(result);
   } catch (error) {
     console.log(error);

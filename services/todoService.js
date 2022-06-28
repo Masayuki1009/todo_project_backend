@@ -4,7 +4,6 @@ const userRepository = require("../repositories/user-repository");
 
 const addTodo = async (dto) => {
   console.log("addtodo", dto)
-  // const added = await userRepository.addTodo({title: dto.title, userId: dto.userId, createdAt: dto.createdAt});
   const added = await userRepository.addTodo({title: dto.title, userId: dto.userId, createdAt: dto.createdAt });
   console.log("added", added)
   return added;
