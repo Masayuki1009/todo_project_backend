@@ -11,8 +11,6 @@ const dbConfig = require('../config/db-config')
 
     })
 
-
-// basecode of access query
 const queryMySQL = (query, paramValues) => {
     const promise = new Promise((resolve, reject) => {
       pool.query(query, paramValues, (err, result) => {

@@ -1,5 +1,4 @@
 const express = require('express');
-// const handleAuth = require('../middlewares/handle-auth');
 const { signup, signin }  = require('../services/loginService');
 
 const router = express.Router();

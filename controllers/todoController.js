@@ -28,15 +28,6 @@ router.get("/get", handleAuth(), async (req, res) => {
   }
 });
 
-router.get("/get/order", handleAuth(), async (req, res) => {
-  try {
-    const result = await todoService.orderTodoLists({ userId: req.user.id });
-    return res.status(200).json(result);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send("failed to insert");
-  }
-});
 
 router.delete("/delete/:id", handleAuth(), async (req, res) => {
   try {

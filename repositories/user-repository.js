@@ -1,5 +1,3 @@
-
-// do only access DB by query
 const queryMySQL = require("../db/connection");
 
 const saveOne = async (user) => {
@@ -29,17 +27,9 @@ const addTodo = async (dto) => {
   return {id: res.insertId, title: dto.title, createdAt: dto.createdAt};
 }
 
-// need userid to recognise user
 const setTodoLists = async (userId) => {
   const res = await queryMySQL(
   'SELECT * FROM todo_data WHERE user_id = ?',
-  [userId]
-  );
-  return res;
-}
-
-const orderTodoLists = async (userId) => {
-  const res = await queryMySQL('SELECT * FROM todo_data WHERE user_id= ? ORDER BY id DESC',
   [userId]
   );
   return res;
@@ -62,14 +52,6 @@ const updateTodo = async (dto) => {
 }
 
 
-// module.exports = {
-//   saveOne,
-//   findByEmail,
-//   addTodo,
-//   setTodoLists,
-//   deleteTodo,
-//   updateTodo,
-// };
 module.exports = {
   saveOne,
   findByEmail,
@@ -77,5 +59,4 @@ module.exports = {
   setTodoLists,
   deleteTodo,
   updateTodo,
-  orderTodoLists,
 };

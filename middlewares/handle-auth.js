@@ -1,4 +1,3 @@
-// const express = require("express");
 const jwt = require("jsonwebtoken")
 const jwtConstants = require('../config/jwt-constants')
 
@@ -7,7 +6,6 @@ const handleAuth = () => async (req, res, next) => {
     console.log("handleAuth通ってる！")
     const token = req.get('authorization')?.slice(7);
     if (!token) return res.status(401).send('unauthorized');
-    // unauthorizedされてる！！！
 
     const decoded = jwt.verify(token, jwtConstants.JWT_SECRET);
 
