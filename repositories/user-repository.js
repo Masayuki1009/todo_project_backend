@@ -31,7 +31,15 @@ const addTodo = async (dto) => {
 
 // need userid to recognise user
 const setTodoLists = async (userId) => {
-  const res = await queryMySQL('SELECT * FROM todo_data WHERE user_id = ?',
+  const res = await queryMySQL(
+  'SELECT * FROM todo_data WHERE user_id = ?',
+  [userId]
+  );
+  return res;
+}
+
+const orderTodoLists = async (userId) => {
+  const res = await queryMySQL('SELECT * FROM todo_data WHERE user_id= ? ORDER BY id DESC',
   [userId]
   );
   return res;
@@ -47,15 +55,21 @@ const deleteTodo = async (dto) => {
 
 const updateTodo = async (dto) => {
   const res = await queryMySQL(
-    `UPDATE todo_data SET title=? WHERE id=? AND user_id=?`,
-    [dto.title , dto.todoId, dto.userId]
+    `UPDATE todo_data SET title=?, updatedAt=CONVERT_TZ(NOW(), '+00:00', '+09:00') WHERE id=? AND user_id=?`,
+    [dto.title, dto.todoId, dto.userId, dto.updatedAt]
   )
-  console.log(res)
-  console.log(res)
   return res
 }
 
 
+// module.exports = {
+//   saveOne,
+//   findByEmail,
+//   addTodo,
+//   setTodoLists,
+//   deleteTodo,
+//   updateTodo,
+// };
 module.exports = {
   saveOne,
   findByEmail,
@@ -63,4 +77,5 @@ module.exports = {
   setTodoLists,
   deleteTodo,
   updateTodo,
+  orderTodoLists,
 };

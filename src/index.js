@@ -1,6 +1,4 @@
-//import
 const express = require("express");
-// const bcryptjs = require("bcryptjs");
 const cors = require("cors")
 const handleAuth = require('../middlewares/handle-auth')
 

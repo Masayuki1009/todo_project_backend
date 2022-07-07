@@ -13,17 +13,28 @@ const setTodoLists = async (dto) => {
   return await userRepository.setTodoLists(dto.userId);
 };
 
+const orderTodoLists = async (dto) => {
+  return await userRepository.orderTodoLists(dto.userId);
+};
+
 const deleteTodo = async (dto) => {
   await userRepository.deleteTodo({ todoId: dto.todoId, userId: dto.userId });
 };
 
 const updateTodo = async (dto) => {
-  await userRepository.updateTodo({ title: dto.title, todoId: dto.todoId, userId: dto.userId });
+  await userRepository.updateTodo({ title: dto.title, todoId: dto.todoId, userId: dto.userId, updatedAt: dto.updatedAt });
 };
 
+// module.exports = {
+//   addTodo,
+//   setTodoLists,
+//   deleteTodo,
+//   updateTodo,
+// };
 module.exports = {
   addTodo,
   setTodoLists,
   deleteTodo,
   updateTodo,
+  orderTodoLists,
 };
